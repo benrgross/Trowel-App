@@ -3,13 +3,12 @@ import Head from 'next/head';
 import { useSession } from 'next-auth/react';
 import React, { ReactNode } from 'react';
 import { AccessDenied } from './auth/access-denied';
-
 type LayoutProps = {
   children: ReactNode;
   title: string;
 };
 
-const Layout = ({ children, title }: LayoutProps) => {
+export const Layout = ({ children, title }: LayoutProps) => {
   const { data: session, status } = useSession();
   const loading = status === 'loading';
 
@@ -41,5 +40,3 @@ const Layout = ({ children, title }: LayoutProps) => {
     </>
   );
 };
-
-export default Layout;
