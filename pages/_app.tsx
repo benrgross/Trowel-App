@@ -1,22 +1,13 @@
-import Head from 'next/head';
 import '../styles/globals.css';
+import { SessionProvider } from 'next-auth/react';
 
 import type { AppProps } from 'next/app';
 
-import { Layout } from '../components/Layout';
-
 const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <>
-      <Head>
-        <link href='https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,400&display=swap' />
-      </Head>
-      <Layout>
-        <main>
-          <Component {...pageProps} />
-        </main>
-      </Layout>
-    </>
+    <SessionProvider session={pageProps.session} refetchInterval={0}>
+      <Component {...pageProps} />
+    </SessionProvider>
   );
 };
 

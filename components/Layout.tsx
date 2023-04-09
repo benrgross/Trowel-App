@@ -1,30 +1,43 @@
-import Image from 'next/image';
+import Head from 'next/head';
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
+import { useSession } from 'next-auth/react';
+import React, { ReactNode } from 'react';
+import { AccessDenied } from './auth/access-denied';
 
-export const Layout = ({ children }: LayoutProps) => {
+type LayoutProps = {
+  children: ReactNode;
+  title: string;
+};
+
+export const Layout = ({ children, title }: LayoutProps) => {
+  const { data: session, status } = useSession();
+  const loading = status === 'loading';
+
+  const CommonLayoutElements = () => (
+    <Head>
+      <title>Trowel - {title}</title>
+      <meta charSet='utf-8' />
+      <meta name='viewport' content='initial-scale=1, width=device-width' />
+      <link rel='icon' type='image/x-icon' href='/favicon.ico' />
+      <link href='https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,400&display=swap' />
+    </Head>
+  );
+
+  if (!session) {
+    return (
+      <>
+        <CommonLayoutElements />
+        <main>
+          <AccessDenied />
+        </main>
+      </>
+    );
+  }
+
   return (
-    <div className='flex flex-col text-white bg-green-light'>
-      <div className='flex flex-col items-center justify-center min-h-screen'>
-        {children}
-      </div>
-
-      <footer className='flex items-center justify-center w-full h-24 border-t'>
-        <a
-          className='flex items-center justify-center gap-2'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Image
-            src='/shift-icon.png'
-            alt='Shift Logo'
-            width={72}
-            height={72}
-          />
-        </a>
-      </footer>
-    </div>
+    <>
+      <CommonLayoutElements />
+      <main>{children}</main>
+    </>
   );
 };
