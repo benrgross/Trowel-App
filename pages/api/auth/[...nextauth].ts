@@ -1,25 +1,35 @@
-import NextAuth, { User } from 'next-auth';
+import NextAuth, { Account, Profile, User } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
+const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, NEXT_AUTH_SECRET } =
+  process.env;
 export default NextAuth({
   providers: [
     GoogleProvider({
       clientId: GOOGLE_CLIENT_ID as string,
       clientSecret: GOOGLE_CLIENT_SECRET as string,
+      authorization: {
+        params: {
+          prompt: 'consent',
+          access_type: 'offline',
+          response_type: 'code',
+        },
+      },
     }),
   ],
+  secret: NEXT_AUTH_SECRET,
+  session: {
+    strategy: 'jwt',
+  },
   callbacks: {
     async signIn(params) {
-      const { user } = params as { user: User };
-      if (user.account.provider === 'google') {
-        const {
-          profile: { sub, name, email, image },
-        } = user;
-
+      const { account } = params as { account: Account };
+      const { profile } = params as { profile: Profile };
+      if (account.provider === 'google' && profile.email) {
+        const { sub, name, email, image } = profile;
         try {
           const existingUser = await prisma.user.findUnique({
             where: { googleId: sub },
@@ -29,7 +39,7 @@ export default NextAuth({
             return true;
           }
 
-          const user = await prisma.user.create({
+          await prisma.user.create({
             data: {
               name: name,
               email: email,
