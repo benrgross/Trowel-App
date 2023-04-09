@@ -3,7 +3,6 @@ import Head from 'next/head';
 import { useSession } from 'next-auth/react';
 import React, { ReactNode } from 'react';
 import { AccessDenied } from './auth/access-denied';
-
 type LayoutProps = {
   children: ReactNode;
   title: string;
