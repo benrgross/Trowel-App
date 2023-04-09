@@ -9,7 +9,7 @@ type LayoutProps = {
   title: string;
 };
 
-const Layout = ({ children, title }: LayoutProps) => {
+export const Layout = ({ children, title }: LayoutProps) => {
   const { data: session, status } = useSession();
   const loading = status === 'loading';
 
@@ -41,5 +41,3 @@ const Layout = ({ children, title }: LayoutProps) => {
     </>
   );
 };
-
-export default Layout;

@@ -1,4 +1,4 @@
-import Layout from '@/components/Layout';
+import { Layout } from '@/components/Layout';
 import { useSession } from 'next-auth/react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
