@@ -6,7 +6,7 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    color: {
+    colors: {
       green: {
         pale: '#E8F5E9',
         soft: '#A5D6A7',
@@ -42,6 +42,9 @@ module.exports = {
         mediumLight: '#CC6633',
         light: '#F9D5C3',
         extraLight: '#FAF6F4',
+      },
+      gradient: {
+        yellowGreen: 'rgb(206 153 4 / 30%)',
       },
     },
     fontFamily: {
