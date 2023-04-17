@@ -32,14 +32,6 @@ const SearchField: React.FC<SearchFieldProps> = ({
         id='customer-search-field-icon'
         customStyles='h-4 w-4 text-gray-medium peer-focus:text-green-mediumLight absolute left-3 top-[3px]'
       />
-
-      {searchQuery && (
-        <ExitIcon
-          clickHandler={() => clearSearch()}
-          id='customer-search-clear-button'
-          customStyles='h-4 w-4 cursor-pointer text-gray-medium absolute peer-focus:text-green-mediumLight right-3 top-[3px]'
-        />
-      )}
     </span>
   );
 };

@@ -19,7 +19,7 @@ export const PlantSearchWidget = ({
   loading,
 }: SearchWidgetProps) => {
   return (
-    <section className='w-2/3 mb-10'>
+    <section className='w-full mb-10 lg:w-2/3'>
       <div
         id='plant-search-widget'
         className={`relative w-full border border-gray-mediumLight rounded-md ${

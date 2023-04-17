@@ -12,35 +12,33 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   loading,
   searchCharacterCount,
 }) => {
+  console.log('searchResults', searchResults);
   const renderNoResults = !loading && !searchResults?.length;
   if (searchCharacterCount < 3) return <></>;
   return (
     <section
       id='search-results-container'
-      className='w-full overflow-hidden bg-white rounded-b search-results-container'
+      className='grid grid-cols-1 bg-white rounded-sm gap-x-12 gap-y-10 md:grid-cols-2 lg:grid-cols-4'
     >
       {searchResults?.map((result) => (
-        <li
+        <article
           key={result.id}
-          className='w-full p-4 border-b border-gray-mediumLight'
+          className='max-w-sm overflow-hidden border rounded shadow-lg cursor-pointer border-gray-light hover:bg-gray-light'
         >
-          <div className='flex items-center'>
-            <div className='flex flex-col'>
-              <img
-                alt={`${result.common_name}-search-thumb-img`}
-                src={result.image_url}
-                width={100}
-                height={100}
-              />
-              <span className='text-sm font-bold text-gray-900'>
-                {result.common_name}
-              </span>
-              <span className='text-sm text-gray-500'>
-                {result.scientific_name}
-              </span>
-            </div>
+          <div className='w-full'>
+            <img
+              alt={`${result.common_name}-search-thumb-img`}
+              src={result.image_url}
+              className='w-[300px] h-[200px] object-cover'
+            />
           </div>
-        </li>
+          <div className='mt-4 mb-2 text-xl font-bold'>
+            {result.common_name}
+          </div>
+          <p className='mb-5 text-base text-gray-700'>
+            {result.scientific_name}
+          </p>
+        </article>
       ))}
 
       {renderNoResults ? (

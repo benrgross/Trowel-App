@@ -1,5 +1,14 @@
 export interface IPlantSearchResultData {
   data: IPlantSearchData[];
+  links:
+    | {
+        first: string;
+        last: string;
+        next: string;
+        self: string;
+      }
+    | {};
+  total: number;
 }
 
 export interface IPlantSearchData {
