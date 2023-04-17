@@ -8,4 +8,8 @@ module.exports = {
     NEXTAUTH_SECRET: process.env.NEXT_AUTH_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   },
+
+  images: {
+    domains: ['bs.plantnet.org'],
+  },
 };
