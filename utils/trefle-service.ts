@@ -1,5 +1,5 @@
-import { IPlantSearchData, IPlantSearchResultData } from 'types/plants';
-
+import { IPlantResponseData, IPlantSearchResultData } from 'types/plants';
+const { NEXT_PUBLIC_URL } = process.env;
 export const searchPlants = async (
   query: string,
   page: number
@@ -12,5 +12,20 @@ export const searchPlants = async (
   } catch (error) {
     console.error('Error during plant search:', error);
     return { data: [], links: {}, total: 0 };
+  }
+};
+
+export const getPlant = async (query: string): Promise<IPlantResponseData> => {
+  try {
+    // figure out this weird behavior
+    const response = await fetch(
+      `${NEXT_PUBLIC_URL}/api/plants/details/${query}`
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching plant:', error);
+    return { data: {} };
   }
 };
