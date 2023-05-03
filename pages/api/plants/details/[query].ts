@@ -5,10 +5,7 @@ const { TREFLE_TOKEN, TREFLE_BASE_URL } = process.env;
 const ROUTE = 'v1/plants';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log('req', req);
   const { query } = req.query;
-
-  console.log('query', query);
 
   const response = await fetch(
     `${TREFLE_BASE_URL}/${ROUTE}/${query}?token=${TREFLE_TOKEN}`
