@@ -1,5 +1,6 @@
 import React from 'react';
 import { IPlantSearchData } from 'types/plants';
+import { useRouter } from 'next/router';
 
 interface SearchResultsProps {
   searchResults: IPlantSearchData[];
@@ -12,16 +13,26 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   loading,
   searchCharacterCount,
 }) => {
+  const router = useRouter();
   console.log('searchResults', searchResults);
   const renderNoResults = !loading && !searchResults?.length;
   if (searchCharacterCount < 3) return <></>;
+
+  const handleSelection = (slug: string) => {
+    console.log('handleSelection', slug);
+
+    router.push({
+      pathname: `/plants/${slug}`,
+    });
+  };
   return (
     <section
       id='search-results-container'
       className='grid grid-cols-1 bg-white rounded-sm gap-x-12 gap-y-10 md:grid-cols-2 lg:grid-cols-4'
     >
       {searchResults?.map((result) => (
-        <article
+        <button
+          onClick={() => handleSelection(result.slug)}
           key={result.id}
           className='max-w-sm overflow-hidden border rounded shadow-lg cursor-pointer border-gray-light hover:bg-gray-light'
         >
@@ -38,7 +49,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
           <p className='mb-5 text-base text-gray-700'>
             {result.scientific_name}
           </p>
-        </article>
+        </button>
       ))}
 
       {renderNoResults ? (
