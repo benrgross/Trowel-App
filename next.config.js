@@ -11,6 +11,6 @@ module.exports = {
   },
 
   images: {
-    domains: ['bs.plantnet.org'],
+    domains: ['bs.plantnet.org', 'www.creativefabrica.com'],
   },
 };
