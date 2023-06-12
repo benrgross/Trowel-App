@@ -1,6 +1,7 @@
 import React from 'react';
 import { IPlantSearchData } from 'types/plants';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 interface SearchResultsProps {
   searchResults: IPlantSearchData[];
@@ -14,17 +15,19 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   searchCharacterCount,
 }) => {
   const router = useRouter();
-  console.log('searchResults', searchResults);
+
   const renderNoResults = !loading && !searchResults?.length;
   if (searchCharacterCount < 3) return <></>;
 
   const handleSelection = (slug: string) => {
-    console.log('handleSelection', slug);
-
     router.push({
       pathname: `/plants/${slug}`,
     });
   };
+
+  const defaultImageUrl =
+    'https://www.creativefabrica.com/wp-content/uploads/2019/12/09/Plants-Monochrome-Icon-Vector-Graphics-1-5-580x386.jpg';
+
   return (
     <section
       id='search-results-container'
@@ -37,11 +40,27 @@ const SearchResults: React.FC<SearchResultsProps> = ({
           className='max-w-sm overflow-hidden border rounded shadow-lg cursor-pointer border-gray-light hover:bg-gray-light'
         >
           <div className='w-full'>
-            <img
-              alt={`${result.common_name}-search-thumb-img`}
-              src={result.image_url}
-              className='w-[300px] h-[200px] object-cover'
-            />
+            <div className='relative w-[300px] h-[200px]'>
+              <Image
+                alt={`${result.common_name}-search-thumb-img`}
+                src={defaultImageUrl}
+                width={300}
+                height={200}
+                className='absolute top-0 left-0 w-full h-full'
+              />
+              <Image
+                alt={`${result.common_name}-search-thumb-img`}
+                src={
+                  result.image_url
+                    ? `/api/image-proxy?url=${result.image_url}`
+                    : defaultImageUrl
+                }
+                width={300}
+                height={200}
+                className='absolute top-0 left-0 object-cover w-full h-full'
+                placeholder='empty'
+              />
+            </div>
           </div>
           <div className='mt-4 mb-2 text-xl font-bold'>
             {result.common_name}
