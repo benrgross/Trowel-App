@@ -17,6 +17,7 @@ export default async function handler(
     });
 
     res.setHeader('Content-Type', response.headers['content-type']);
+
     return res.end(response.data);
   } catch (err) {
     console.error(err);

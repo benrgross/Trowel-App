@@ -1,7 +1,6 @@
 import React from 'react';
 import { IPlantSearchData } from 'types/plants';
-import { useRouter } from 'next/router';
-import Image from 'next/image';
+import PlantPreviewCard from '../cards/PlantPreviewCard';
 
 interface SearchResultsProps {
   searchResults: IPlantSearchData[];
@@ -14,19 +13,10 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   loading,
   searchCharacterCount,
 }) => {
-  const router = useRouter();
-
   const renderNoResults = !loading && !searchResults?.length;
   if (searchCharacterCount < 3) return <></>;
 
-  const handleSelection = (slug: string) => {
-    router.push({
-      pathname: `/plants/${slug}`,
-    });
-  };
-
-  const defaultImageUrl =
-    'https://www.creativefabrica.com/wp-content/uploads/2019/12/09/Plants-Monochrome-Icon-Vector-Graphics-1-5-580x386.jpg';
+  console.log(searchResults);
 
   return (
     <section
@@ -34,41 +24,13 @@ const SearchResults: React.FC<SearchResultsProps> = ({
       className='grid grid-cols-1 bg-white rounded-sm gap-x-12 gap-y-10 md:grid-cols-2 lg:grid-cols-4'
     >
       {searchResults?.map((result) => (
-        <button
-          onClick={() => handleSelection(result.slug)}
-          key={result.id}
-          className='max-w-sm overflow-hidden border rounded shadow-lg cursor-pointer border-gray-light hover:bg-gray-light'
-        >
-          <div className='w-full'>
-            <div className='relative w-[300px] h-[200px]'>
-              <Image
-                alt={`${result.common_name}-search-thumb-img`}
-                src={defaultImageUrl}
-                width={300}
-                height={200}
-                className='absolute top-0 left-0 w-full h-full'
-              />
-              <Image
-                alt={`${result.common_name}-search-thumb-img`}
-                src={
-                  result.image_url
-                    ? `/api/image-proxy?url=${result.image_url}`
-                    : defaultImageUrl
-                }
-                width={300}
-                height={200}
-                className='absolute top-0 left-0 object-cover w-full h-full'
-                placeholder='empty'
-              />
-            </div>
-          </div>
-          <div className='mt-4 mb-2 text-xl font-bold'>
-            {result.common_name}
-          </div>
-          <p className='mb-5 text-base text-gray-700'>
-            {result.scientific_name}
-          </p>
-        </button>
+        <PlantPreviewCard
+          id={result.id}
+          slug={result.slug}
+          commonName={result?.common_name}
+          scientificName={result?.scientific_name}
+          imageUrl={result?.image_url}
+        />
       ))}
 
       {renderNoResults ? (

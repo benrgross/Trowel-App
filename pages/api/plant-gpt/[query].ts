@@ -10,7 +10,7 @@ type Data = {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query } = req.query;
-
+  console.log(query);
   if (!query || Array.isArray(query)) {
     res.status(400).json({
       error: 'Invalid plant_name',
