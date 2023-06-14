@@ -52,7 +52,7 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({ images }) => {
                 ? 'bg-green-moss text-white'
                 : 'bg-green-pale text-green-dark'
             }`}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => setActiveTab(tab as TabKey)}
           >
             {tab === '' ? 'General' : toTitleCase(tab)}
           </button>
