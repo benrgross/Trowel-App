@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { toTitleCase } from '@/utils/helper-fuctions';
 import ButtonPrimary from '@/components/ui/buttons/ButtonPrimary';
 import CarouselComponent from '@/components/ui/images/Carousel';
+import { getSession } from 'next-auth/react';
 
 const PlantDetailPages: React.FC<IPlantData> = ({ data }) => {
   const [trefleData, setTrefleData] = useState<IPlantResponseData>();
@@ -33,14 +34,18 @@ const PlantDetailPages: React.FC<IPlantData> = ({ data }) => {
 
   return (
     <Layout title={'Plant Details'}>
-      <div className='px-[20px] mb-[120px] xl:mb-[251px] max-w-[1364px] mx-auto mt-14'>
+      <div className='flex flex-col items-center justify-center px-4 py-6 mt-10 lg:px-0'>
         <div className='flex flex-col items-center'>
           <h1 className='mb-10 text-4xl'>{toTitleCase(data.common_name)}</h1>
-          <CarouselComponent images={data.main_species.images} />
-          <ButtonPrimary
-            onClick={() => getPlantInfo(data.scientific_name, data.slug)}
-            text='Get Plant Info'
-          />
+          <div className='w-full px-6 md:px-0 md:w-full'>
+            <CarouselComponent images={data.main_species.images} />
+          </div>
+          <div className='mt-4'>
+            <ButtonPrimary
+              onClick={() => getPlantInfo(data.scientific_name, data.slug)}
+              text='Get Plant Info'
+            />
+          </div>
         </div>
       </div>
     </Layout>
