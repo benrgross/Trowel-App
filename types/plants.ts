@@ -9,6 +9,9 @@ export interface IPlantSearchResultData {
       }
     | {};
   total: number;
+  meta?: {
+    total: number;
+  };
 }
 
 export interface IPlantSearchData {
@@ -32,6 +35,9 @@ export interface IPlantSearchData {
   status: string;
   synonyms: string[];
   year: number;
+  meta: {
+    total: number;
+  };
 }
 
 export interface IPlantResponseData {
@@ -65,6 +71,7 @@ export interface IPlantResponseData {
         forms: any[];
         subvarieties: any[];
         sources: Source[];
+        images: [any];
       }
     | {};
   meta?: {
@@ -128,14 +135,7 @@ export interface MainSpecies {
   duration: string | null;
   edible_part: string | null;
   edible: boolean;
-  images: {
-    flower: any[];
-    leaf: any[];
-    habit: any[];
-    fruit: any[];
-    bark: any[];
-    other: any[];
-  };
+  images: Images;
   common_names: Record<string, unknown>;
   distribution: {
     native: string[];
@@ -290,4 +290,20 @@ interface Source {
   name: string;
   url: string;
   citation: string | null;
+}
+
+interface Image {
+  id: number;
+  image_url: string;
+  copyright: string;
+}
+
+interface Images {
+  bark: Image[];
+  flower: Image[];
+  fruit: Image[];
+  habit: Image[];
+  leaf: Image[];
+  other: Image[];
+  '': Image[]; // for empty string key
 }

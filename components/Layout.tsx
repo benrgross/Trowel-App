@@ -11,6 +11,7 @@ type LayoutProps = {
 
 export const Layout = ({ children, title }: LayoutProps) => {
   const { data: session, status } = useSession();
+
   const loading = status === 'loading';
 
   const CommonLayoutElements = () => (

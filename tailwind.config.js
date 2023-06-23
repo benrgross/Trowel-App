@@ -7,13 +7,14 @@ module.exports = {
   ],
   theme: {
     colors: {
+      white: '#FFFFFF',
       green: {
-        pale: '#E8F5E9',
-        soft: '#A5D6A7',
-        moss: '#68855C',
-        olive: '#556C42',
-        dark: '#364027',
-        extraDark: '#2d433f',
+        pale: '#EAF4EB', // Lightest green, very close to white.
+        soft: '#BFD8BD', // Light green, good for backgrounds.
+        moss: '#79A67C', // Medium green, suitable for text or contrast elements.
+        olive: '#527953', // Darker green, good for contrast text on light backgrounds.
+        dark: '#324635', // Dark green, suitable for text on white backgrounds or dark mode elements.
+        extraDark: '#27312C', // Very dark green, almost black. Good for text on light backgrounds or dark mode backgrounds.
       },
       blue: {
         dark: '#2D3643',
