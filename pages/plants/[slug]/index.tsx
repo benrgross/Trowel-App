@@ -34,10 +34,10 @@ const PlantDetailPages: React.FC<IPlantData> = ({ data }) => {
 
   return (
     <Layout title={'Plant Details'}>
-      <div className='flex flex-col items-center justify-center px-4 py-6 mt-10 lg:px-0'>
-        <div className='flex flex-col items-center'>
+      <div className='flex flex-col items-center px-4 py-6 mt-10 justify-left lg:px-0'>
+        <div className='flex flex-col'>
           <h1 className='mb-10 text-4xl'>{toTitleCase(data.common_name)}</h1>
-          <div className='w-full px-6 md:px-0 md:w-full'>
+          <div className='w-full md:w-[500px] md:px-0'>
             <CarouselComponent images={data.main_species.images} />
           </div>
           <div className='mt-4'>

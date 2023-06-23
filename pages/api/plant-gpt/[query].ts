@@ -19,20 +19,87 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const gpt3body = {
-    model: 'gpt-3.5-turbo',
+    max_tokens: 3000,
+    model: 'gpt-3.5-turbo-0613',
     messages: [
       {
         role: 'system',
         content:
-          'You are a helpful horticulturalist/gardener that provides plant care properties in a JSON body. Always start the json with ```json and end with ```',
+          'You are a helpful horticulturalist/gardener that provides plant care properties in a JSON body.',
       },
       {
         role: 'user',
-        content: `Provide care properties for ${query}, including watering, pruning, light conditions, wintering, planting, soil, max temp, min temp, planting zone, and diseases. provide the response in JSON using the properties: `,
+        content: `Provide care properties for ${query}, including watering, pruning, light conditions, wintering, planting, soil, max temp, min temp, planting zone, diseases, and tips for growing. provide the response in JSON using the properties `,
       },
     ],
-    max_tokens: 500,
-    temperature: 0.7,
+    functions: [
+      {
+        name: 'plantCareProperties',
+        description:
+          'watering, pruning, light conditions, wintering, planting, soil, max temp, min temp, planting zone, and diseases',
+        parameters: {
+          type: 'object',
+          properties: {
+            watering: {
+              type: 'string',
+              description: 'watering needs and instruction of the plant',
+            },
+            pruning: {
+              type: 'string',
+              description: 'pruning needs and instruction of the plant',
+            },
+            light: {
+              type: 'string',
+              description: 'light needs and instruction of the plant',
+            },
+            wintering: {
+              type: 'string',
+              description: 'wintering needs and instruction of the plant',
+            },
+            planting: {
+              type: 'string',
+              description: 'planting needs and instruction of the plant',
+            },
+            soil: {
+              type: 'string',
+              description: 'soil needs and instruction of the plant',
+            },
+            max_temp: {
+              type: 'string',
+              description: 'max temp in ferenhieght of the plant',
+            },
+            min_temp: {
+              type: 'string',
+              description: 'min temp ferenhieght of the plant',
+            },
+            planting_zone: {
+              type: 'string',
+              description: 'planting zone of the plant',
+            },
+            diseases: {
+              type: 'string',
+              description: 'description of common diseases of the plant',
+            },
+            tips: {
+              type: 'string',
+              description: 'tips for growing the plant',
+            },
+          },
+        },
+        required: [
+          'watering',
+          'watering',
+          'light',
+          'wintering',
+          'planting',
+          'soil',
+          'max_temp',
+          'min_temp',
+          'planting_zone',
+          'diseases',
+        ],
+      },
+    ],
   };
 
   const gptOptions = {
@@ -49,11 +116,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       gptOptions
     );
 
-    if (response.data.choices[0]?.message.content) {
+    if (response.data.choices[0]?.message.function_call) {
       try {
-        const gptData = await extractAndParseJson(
-          response.data.choices[0]?.message.content
+        const gptData = JSON.parse(
+          response.data.choices[0]?.message.function_call.arguments
         );
+        console.log('gptData', gptData);
         const data = { data: gptData };
         res.status(200).json(data);
       } catch (error) {
@@ -70,17 +138,3 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export default handler;
-
-async function extractAndParseJson(content: string) {
-  // Find the start and end indices of the JSON string
-  const startIndex = content.indexOf('```json') + 7;
-  const endIndex = content.lastIndexOf('```');
-
-  // Extract the JSON string
-  const jsonString = content.slice(startIndex, endIndex).trim();
-
-  // Parse the JSON string into an object
-  const jsonObject = JSON.parse(jsonString);
-
-  return jsonObject;
-}

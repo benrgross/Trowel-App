@@ -42,7 +42,7 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({ images }) => {
   };
 
   return (
-    <div className='w-full h-full px-6'>
+    <div className='w-full h-full'>
       <div className='flex flex-wrap overflow-hidden'>
         {Object.keys(images).map((tab) => (
           <button
